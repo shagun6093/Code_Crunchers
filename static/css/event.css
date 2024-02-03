@@ -1,0 +1,107 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+      background-color: #f9f6f2;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: rgb(60, 185, 79);
+  color: #fff;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* LOGO */
+.logo {
+  font-size: 32px;
+}
+
+/* NAVBAR MENU */
+.menu {
+  display: flex;
+  gap: 1em;
+  font-size: 18px;
+}
+
+.menu li:hover {
+  background-color: #38c156;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.menu li {
+  padding: 5px 14px;
+}
+
+/* DROPDOWN MENU */
+.services {
+  position: relative; 
+}
+
+.dropdown {
+  background-color: rgb(17, 139, 1);
+  padding: 1em 0;
+  position: absolute; 
+  display: none;
+  border-radius: 8px;
+  top: 35px;
+}
+
+.dropdown li + li {
+  margin-top: 10px;
+}
+
+.dropdown li {
+  padding: 0.5em 1em;
+  width: 8em;
+  text-align: center;
+}
+
+.dropdown li:hover {
+  background-color: #45c534;
+}
+
+.services:hover .dropdown {
+  display: block;
+}
+.card-img-top{
+  border-radius: 50px;
+  padding: 20px;
+}
+.card{
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+.card-body{
+  padding: 25px;
+  margin-top: -15px;
+}
+.btn-primary{
+  border-radius: 50px;
+  width: 120px;
+  background-color: #2b831f;
+ 
+}
+.btn-primary:hover{
+  background-color: #0b4903;
+  border: none;
+}
+h3,h5{
+  color: rgb(8, 221, 26);
+}
+.card:hover {
+  transform: scale(1.05); /* Increase the size of the card on hover */
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 6px 0px; /* Add a shadow on hover */
+}
+.card:hover  {
+  background-color: #96EC85; /* Change the color to your preferred hover color */
+}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carbon Emission Calculator</title>
+</head>
+<body>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #carbonCalculator {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[type="button"] {
+            background-color: #0e6b0d;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button[type="button"]:hover {
+            background-color: #1cd438;
+        }
+
+       
+        
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #result p {
+            font-size: 18px;
+            margin: 10px 0;
+            padding: 5px;
+            text-align: center;
+        }
+
+        #result p:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <h1>Carbon Emission Calculator</h1>
+
+    <form id="carbonCalculator">
+        <label for="distance">Distance Traveled (km):</label>
+        <input type="number" id="distance" required><br><br>
+
+        <label for="transportation">Transportation Mode:</label>
+        <select id="transportation">
+            <option value="bike">Bike</option>
+            <option value="bicycle">Bicycle</option>
+            <option value="car">Car</option>
+            <option value="bus">Bus</option>
+        </select><br><br>
+
+        <label for="usualTransportation">Usual Transportation Mode:</label>
+        <select id="usualTransportation">
+            <option value="bike">Bike</option>
+            <option value="bicycle">Bicycle</option>
+            <option value="car">Car</option>
+            <option value="bus">Bus</option>
+        </select><br><br>
+
+        <label for="fuelType">Fuel Type:</label>
+        <select id="fuelType">
+            <option value="petrol">Petrol</option>
+            <option value="diesel">Diesel</option>
+            <option value="electric">Electric</option>
+        </select><br><br>
+
+        <label for="mileage">Mileage (km/liter):</label>
+        <input type="number" id="mileage" required><br><br>
+
+        <button type="button" onclick="calculateEmissions()">Calculate</button>
+
+        <div id="result">
+            <p>Carbon Emissions: <span id="carbonEmissions"></span> grams</p>
+            <p>Savings compared to usual transportation: <span id="savings"></span> grams</p>
+        </div>
+    </form>
+
+    
+
+    <script>
+        function calculateEmissions() {
+            const distance = parseFloat(document.getElementById("distance").value);
+            const transportation = document.getElementById("transportation").value;
+            const usualTransportation = document.getElementById("usualTransportation").value;
+            const fuelType = document.getElementById("fuelType").value;
+            const mileage = parseFloat(document.getElementById("mileage").value);
+
+            const emissionsPerKilometer = {
+                bike: 0,      // Adjust these values according to your calculations
+                bicycle: 0,
+                car: 200,     // Example value in grams per kilometer
+                bus: 100      // Example value in grams per kilometer
+            };
+
+            const carbonEmissions = (distance / mileage) * emissionsPerKilometer[transportation];
+
+            const savings = (distance / mileage) * emissionsPerKilometer[usualTransportation] - carbonEmissions;
+
+            document.getElementById("carbonEmissions").innerHTML = carbonEmissions.toFixed(2);
+            document.getElementById("savings").innerHTML = savings.toFixed(2);
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Carbon Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Travel Carbon Calculator</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="travel_mode">Select Mode of Travel:</label>
+                <select name="travel_mode" id="travel_mode">
+                    <option value="car">Car</option>
+                    <option value="bicycle">Bicycle</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mileage">Mileage (km):</label>
+                <input type="number" name="mileage" id="mileage" step="0.01" required>
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
+        {% if result is not none %}
+        <div class="result">
+            <p>You saved <span>{{ result }}</span> grams of CO2 emissions by choosing {{ "Bicycle" if request.form["travel_mode"] == "bicycle" else "Car" }}.</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html> -->

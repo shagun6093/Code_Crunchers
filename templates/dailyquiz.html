@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome Quiz App | CodingNepal</title>
+    <link rel="stylesheet" href="/static/css/dailystyle.css">
+    <!-- FontAweome CDN Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+    <div class="start-container">
+    <div class="hea">
+    <h1> Daily Quiz</h1>
+    <h3>Test Your Knowledge</h3>
+    </div>
+    <div class="image" style="margin-left: 570px;">
+    <img src="/static/images/2.png" />
+    </div>
+    <div class="start_btn"><button>Start Quiz</button></div>
+    </div>
+    <!-- Info Box -->
+    <div class="info_box">
+        <div class="info-title"><span>Some Rules of this Quiz</span></div>
+        <div class="info-list">
+            <div class="info">1. You will have only <span>15 seconds</span> per each question.</div>
+            <div class="info">2. Once you select your answer, it can't be undone.</div>
+            <div class="info">3. You can't select any option once time goes off.</div>
+            <div class="info">4. You can't exit from the Quiz while you're playing.</div>
+            <div class="info">5. You'll get points on the basis of your correct answers.</div>
+        </div>
+        <div class="buttons">
+            <button class="quit">Exit Quiz</button>
+            <button class="restart">Continue</button>
+        </div>
+    </div>
+    <!-- Quiz Box -->
+    <div class="quiz_box">
+        <header>
+
+            <div class="title"> Daily Test</div>
+          
+            <div class="timer">
+                <div class="time_left_txt">Time Left</div>
+                <div class="timer_sec">15</div>
+            </div>
+            <div class="time_line"></div>
+        </header>
+        <section>
+            <div class="que_text">
+                <!-- Here I've inserted question from JavaScript -->
+            </div>
+            <div class="option_list">
+                <!-- Here I've inserted options from JavaScript -->
+            </div>
+            <div class="explanation">
+                <p id="explanation_text"></p>
+            </div>            
+        </section>
+        <!-- footer of Quiz Box -->
+        <footer>
+            <div class="total_que">
+                <!-- Here I've inserted Question Count Number from JavaScript -->
+            </div>
+            <button class="next_btn">Next Que</button>
+        </footer>
+    </div>
+    <!-- Result Box -->
+    <div class="result_box">
+        <div class="icon">
+            <i class="fas fa-crown"></i>
+        </div>
+        <div class="complete_text">You've completed the Quiz!</div>
+        <div class="score_text">
+            <!-- Here I've inserted Score Result from JavaScript -->
+        </div>
+        <div class="buttons">
+            <button class="restart">Replay Quiz</button>
+            <button class="quit">Quit Quiz</button>
+        </div>
+    </div>
+    <!-- Inside this JavaScript file I've inserted Questions and Options only -->
+    <!-- <script src="questions.js"></script> -->
+    <!-- Inside this JavaScript file I've coded all Quiz Codes -->
+    <!-- <script src="quiz.js"></script> -->
+    <script>// creating an array and passing the number, questions, options, and answers
+        let questions = [
+          {
+            question: "What are some ways to reduce your carbon footprint when commuting?",
+            answer: "Using public transportation, biking, or carpooling",
+            explanation: "Reducing the carbon footprint during commuting involves using eco-friendly options like public transportation, biking, or carpooling.",
+            options: [
+              "Driving alone in an SUV",
+              "Using a private jet",
+              "Walking short distances",
+              "Using public transportation, biking, or carpooling"
+            ]
+          },
+          {
+            question: "How can you reduce energy consumption at home to live sustainably?",
+            answer: "Using energy-efficient appliances and practices",
+            explanation: "Reducing energy consumption at home involves using energy-efficient appliances and adopting energy-saving practices.",
+            options: [
+              "Leaving lights and appliances on",
+              "Using energy-efficient appliances and practices",
+              "Burning fossil fuels",
+              "Using disposable products"
+            ]
+          },
+          {
+            question: "What is the concept of 'reduce' in sustainable living?",
+            answer: "Minimizing the use of resources and consumption",
+            explanation: "The 'reduce' part of sustainable living involves minimizing resource usage and consumption to decrease environmental impact.",
+            options: [
+              "Maximizing waste production",
+              "Buying disposable products",
+              "Minimizing resource use and consumption",
+              "Expanding landfills"
+            ]
+          },
+          {
+            question: "Why is reducing water usage important in sustainable living?",
+            answer: "Conserves a precious natural resource",
+            explanation: "Reducing water usage is crucial in sustainable living to conserve a precious natural resource and reduce energy consumption for water treatment.",
+            options: [
+              "Increases water pollution",
+              "Wastes energy",
+              "Conserves a precious natural resource",
+              "Promotes water consumption"
+            ]
+          },
+          {
+            question: "What is the term for goods designed to be reused or recycled?",
+            answer: "Sustainable products",
+            explanation: "Sustainable products are designed for reuse or recycling, contributing to a circular economy.",
+            options: [
+              "Single-use products",
+              "Disposable goods",
+              "Sustainable products",
+              "Non-recyclable items"
+            ]
+          },
+          {
+            question: "What is the primary purpose of an eco-friendly lifestyle?",
+            answer: "Minimizing harm to the environment",
+            explanation: "An eco-friendly lifestyle aims to minimize harm to the environment through conscious choices and sustainable practices.",
+            options: [
+              "Maximizing resource consumption",
+              "Promoting pollution",
+              "Minimizing harm to the environment",
+              "Encouraging waste generation"
+            ]
+          },
+          {
+            question: "What is the term for energy-efficient building designs and practices?",
+            answer: "Green building",
+            explanation: "Green building refers to energy-efficient and sustainable building designs and practices that reduce environmental impact.",
+            options: [
+              "Traditional construction",
+              "Eco-unfriendly building",
+              "Green building",
+              "Concrete structures"
+            ]
+          },
+          {
+            question: "How can individuals reduce their carbon footprint when commuting?",
+            answer: "Using public transportation, biking, or carpooling",
+            explanation: "Reducing the carbon footprint during commuting involves using eco-friendly options like public transportation, biking, or carpooling.",
+            options: [
+              "Driving alone in an SUV",
+              "Using a private jet",
+              "Walking short distances",
+              "Using public transportation, biking, or carpooling"
+            ]
+          },
+          {
+            question: "What is the term for the process of turning waste materials into reusable materials?",
+            answer: "Recycling",
+            explanation: "Recycling is the process of converting waste materials into reusable materials to reduce the need for new resources.",
+            options: [
+              "Waste generation",
+              "Resource depletion",
+              "Recycling",
+              "Landfill disposal"
+            ]
+          },
+          {
+            question: "What is the main goal of sustainable forestry?",
+            answer: "Preserving forest ecosystems while harvesting wood",
+            explanation: "Sustainable forestry aims to preserve forest ecosystems while responsibly harvesting wood and other forest products.",
+            options: [
+              "Clear-cutting forests for profit",
+              "Deforestation",
+              "Preserving forest ecosystems while harvesting wood",
+              "Maximizing logging without regard for the environment"
+            ]
+          },
+          {
+            question: "What is the term for reducing waste by buying products with minimal packaging?",
+            answer: "Zero waste shopping",
+            explanation: "Zero waste shopping involves reducing waste by purchasing products with minimal or reusable packaging.",
+            options: [
+              "Bulk shopping",
+              "Excessive packaging",
+              "Zero waste shopping",
+              "Single-use packaging"
+            ]
+          },
+          {
+            question: "How does sustainable farming differ from conventional farming?",
+            answer: "Minimizes chemical pesticide and fertilizer use",
+            explanation: "Sustainable farming minimizes chemical pesticide and fertilizer use, promoting organic and eco-friendly practices.",
+            options: [
+              "Maximizes chemical pesticide and fertilizer use",
+              "Reduces crop yield",
+              "Promotes soil degradation",
+              "Minimizes chemical pesticide and fertilizer use"
+            ]
+          },
+          {
+            question: "What is the primary purpose of wildlife conservation?",
+            answer: "Preserving biodiversity and protecting species",
+            explanation: "Wildlife conservation aims to preserve biodiversity and protect endangered species from extinction.",
+            options: [
+              "Maximizing hunting and fishing",
+              "Destroying natural habitats",
+              "Preserving biodiversity and protecting species",
+              "Promoting poaching"
+            ]
+          },
+          {
+            question: "Why are sustainable seafood choices important?",
+            answer: "Preserves fish populations and marine ecosystems",
+            explanation: "Choosing sustainable seafood helps preserve fish populations and maintain the health of marine ecosystems.",
+            options: [
+              "Depletes fish populations",
+              "Leads to overfishing",
+              "Promotes pollution",
+              "Preserves fish populations and marine ecosystems"
+            ]
+          },
+          {
+            question: "What is the term for planting trees to restore or create forests?",
+            answer: "Reforestation",
+            explanation: "Reforestation involves planting trees to restore or create forests, which benefits the environment and biodiversity.",
+            options: [
+              "Deforestation",
+              "Clear-cutting",
+              "Urbanization",
+              "Reforestation"
+            ]
+          },
+          {
+            question: "What is the primary goal of sustainable fisheries management?",
+            answer: "Maintaining fish populations for future generations",
+            explanation: "Sustainable fisheries management aims to ensure that fish populations are maintained for the benefit of present and future generations.",
+            options: [
+              "Maximizing fish catches",
+              "Overfishing",
+              "Depleting fish populations",
+              "Maintaining fish populations for future generations"
+            ]
+          },
+          {
+            question: "What is the term for the practice of using rainwater for landscaping and irrigation?",
+            answer: "Rainwater harvesting",
+            explanation: "Rainwater harvesting is the practice of collecting and using rainwater for landscaping, irrigation, and other purposes.",
+            options: [
+              "Wasting rainwater",
+              "Creating water scarcity",
+              "Rainwater harvesting",
+              "Promoting water pollution"
+            ]
+          },
+          {
+            question: "How does sustainable fashion differ from fast fashion?",
+            answer: "Emphasizes ethical and eco-friendly production",
+            explanation: "Sustainable fashion emphasizes ethical and eco-friendly production practices, prioritizing quality and longevity over mass production.",
+            options: [
+              "Promotes mass production and waste",
+              "Encourages disposable clothing",
+              "Emphasizes ethical and eco-friendly production",
+              "Uses synthetic materials exclusively"
+            ]
+          },
+          {
+            question: "What is the term for creating gardens that support local wildlife and ecosystems?",
+            answer: "Wildlife gardening",
+            explanation: "Wildlife gardening involves creating gardens that support local wildlife and ecosystems, providing habitats for various species.",
+            options: [
+              "Concrete gardening",
+              "Promoting invasive species",
+              "Wildlife gardening",
+              "Eliminating all plants in a garden"
+            ]
+          },
+          {
+            question: "What is the term for the process of reducing air and water pollution from vehicles?",
+            answer: "Emission control",
+            explanation: "Emission control involves measures to reduce air and water pollution from vehicles, making transportation more eco-friendly.",
+            options: [
+              "Maximizing emissions",
+              "Encouraging pollution",
+              "Emission control",
+              "Promoting fossil fuel consumption"
+            ]
+          },
+          {
+            question: "What is the primary purpose of green building materials?",
+            answer: "Minimizing environmental impact during construction",
+            explanation: "Green building materials are designed to minimize environmental impact during construction and throughout the building's lifecycle.",
+            options: [
+              "Maximizing waste generation",
+              "Promoting pollution",
+              "Minimizing resource use",
+              "Minimizing environmental impact during construction"
+            ]
+          },
+          {
+            question: "What is the term for buying second-hand or used items instead of new ones?",
+            answer: "Thrifting",
+            explanation: "Thrifting involves buying second-hand or used items to reduce waste and promote sustainable consumption.",
+            options: [
+              "Purchasing new items",
+              "Supporting fast fashion",
+              "Promoting waste",
+              "Thrifting"
+            ]
+          },
+          // Add more questions related to carbon footprint and sustainable living here
+        ];
+        
+          
+        
+        function getRandomQuestions(arr, numQuestions) {
+            // Create a copy of the original array to avoid modifying it
+            const copyArray = [...arr];
+            
+            // Initialize an empty array to store the selected questions
+            const selectedQuestions = [];
+          
+            // Loop to select random questions
+            for (let i = 0; i < numQuestions; i++) {
+              const randomIndex = Math.floor(Math.random() * copyArray.length);
+              const randomQuestion = copyArray.splice(randomIndex, 1)[0];
+              selectedQuestions.push(randomQuestion);
+            }
+          
+            return selectedQuestions;
+          }
+          </script>
+          <script>
+            const start_btn = document.querySelector(".start_btn button");
+const info_box = document.querySelector(".info_box");
+const exit_btn = info_box.querySelector(".buttons .quit");
+const continue_btn = info_box.querySelector(".buttons .restart");
+const quiz_box = document.querySelector(".quiz_box");
+const result_box = document.querySelector(".result_box");
+const option_list = document.querySelector(".option_list");
+const time_line = document.querySelector("header .time_line");
+const timeText = document.querySelector(".timer .time_left_txt");
+const timeCount = document.querySelector(".timer .timer_sec");
+
+// if startQuiz button clicked
+start_btn.onclick = () => {
+  info_box.classList.add("activeInfo"); //show info box
+  startContainer.classList.remove("active"); 
+};
+
+// if exitQuiz button clicked
+exit_btn.onclick = () => {
+  info_box.classList.remove("activeInfo"); //hide info box
+};
+
+// if continueQuiz button clicked
+continue_btn.onclick = () => {
+  info_box.classList.remove("activeInfo"); //hide info box
+  quiz_box.classList.add("activeQuiz"); //show quiz box
+   // Get a random set of questions (e.g., 2 questions)
+   
+   const numRandomQuestions = 10; // Adjust this number as needed
+   const randomQuestions = getRandomQuestions(questions, numRandomQuestions);
+ 
+   // Update the questions array with the random questions
+   questions = randomQuestions;
+ 
+  showQuetions(que_count);
+  queCounter(que_numb); //passing 1 parameter to queCounter
+  startTimer(15); //calling startTimer function
+  startTimerLine(0); //calling startTimerLine function
+};
+
+let timeValue = 15;
+let que_count = 0;
+let que_numb = 1;
+let userScore = 0;
+let counter;
+let counterLine;
+let widthValue = 0;
+
+const restart_quiz = result_box.querySelector(".buttons .restart");
+const quit_quiz = result_box.querySelector(".buttons .quit");
+
+// if restartQuiz button clicked
+restart_quiz.onclick = () => {
+  quiz_box.classList.add("activeQuiz"); //show quiz box
+  result_box.classList.remove("activeResult"); //hide result box
+  timeValue = 15;
+  que_count = 0;
+  que_numb = 1;
+  userScore = 0;
+  widthValue = 0;
+  showQuetions(que_count); //calling showQestions function
+  queCounter(que_numb); //passing que_numb value to queCounter
+  clearInterval(counter); //clear counter
+  clearInterval(counterLine); //clear counterLine
+  startTimer(timeValue); //calling startTimer function
+  startTimerLine(widthValue); //calling startTimerLine function
+  timeText.textContent = "Time Left"; //change the text of timeText to Time Left
+  next_btn.classList.remove("show"); //hide the next button
+};
+
+// if quitQuiz button clicked
+quit_quiz.onclick = () => {
+  window.location.reload(); //reload the current window
+};
+
+const next_btn = document.querySelector("footer .next_btn");
+const bottom_ques_counter = document.querySelector("footer .total_que");
+
+// if Next Que button clicked
+next_btn.onclick = () => {
+  if (que_count < questions.length - 1) {
+    //if question count is less than total question length
+    que_count++; //increment the que_count value
+    que_numb++; //increment the que_numb value
+    showQuetions(que_count); //calling showQestions function
+    queCounter(que_numb); //passing que_numb value to queCounter
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    startTimer(timeValue); //calling startTimer function
+    startTimerLine(widthValue); //calling startTimerLine function
+    timeText.textContent = "Time Left"; //change the timeText to Time Left
+    next_btn.classList.remove("show"); //hide the next button
+  } else {
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    showResult(); //calling showResult function
+  }
+};
+
+// getting questions and options from array
+function showQuetions(index) {
+  const que_text = document.querySelector(".que_text");
+  const explanationText = document.getElementById("explanation_text");
+  explanationText.textContent = "";
+  //creating a new span and div tag for question and option and passing the value using array index
+  let que_tag =
+    "<span>" +
+    questions[index].question +
+    "</span>";
+  let option_tag =
+    '<div class="option"><span>' +
+    questions[index].options[0] +
+    "</span></div>" +
+    '<div class="option"><span>' +
+    questions[index].options[1] +
+    "</span></div>" +
+    '<div class="option"><span>' +
+    questions[index].options[2] +
+    "</span></div>" +
+    '<div class="option"><span>' +
+    questions[index].options[3] +
+    "</span></div>";
+  que_text.innerHTML = que_tag; //adding new span tag inside que_tag
+  option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+
+  const option = option_list.querySelectorAll(".option");
+
+  // set onclick attribute to all available options
+  for (i = 0; i < option.length; i++) {
+    option[i].setAttribute("onclick", "optionSelected(this)");
+  }
+}
+// creating the new div tags which for icons
+let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
+let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
+
+//if user clicked on option
+function optionSelected(answer) {
+  clearInterval(counter); //clear counter
+  clearInterval(counterLine); //clear counterLine
+  let userAns = answer.textContent; //getting user selected option
+  let correcAns = questions[que_count].answer; //getting correct answer from array
+  const allOptions = option_list.children.length; //getting all option items
+
+  if (userAns == correcAns) {
+    //if user selected option is equal to array's correct answer
+    userScore += 1; //upgrading score value with 1
+    answer.classList.add("correct"); //adding green color to correct selected option
+    answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+    console.log("Correct Answer");
+    console.log("Your correct answers = " + userScore);
+    const explanationText = document.getElementById("explanation_text");
+    explanationText.textContent = questions[que_count].explanation;
+  } else {
+    answer.classList.add("incorrect"); //adding red color to correct selected option
+    answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
+    console.log("Wrong Answer");
+
+    const explanationText = document.getElementById("explanation_text");
+    explanationText.textContent = questions[que_count].explanation;
+
+    for (i = 0; i < allOptions; i++) {
+      if (option_list.children[i].textContent == correcAns) {
+        //if there is an option which is matched to an array answer
+        option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+        option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+        console.log("Auto selected correct answer.");
+      }
+    }
+  }
+  for (i = 0; i < allOptions; i++) {
+    option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+  }
+  next_btn.classList.add("show"); //show the next button if user selected any option
+}
+
+function showResult() {
+  info_box.classList.remove("activeInfo"); //hide info box
+  quiz_box.classList.remove("activeQuiz"); //hide quiz box
+  result_box.classList.add("activeResult"); //show result box
+  const scoreText = result_box.querySelector(".score_text");
+  if (userScore > 3) {
+    // if user scored more than 3
+    //creating a new span tag and passing the user score number and total question number
+    let scoreTag =
+      "<span>and congrats! , You got <p>" +
+      userScore +
+      "</p> out of <p>" +
+      questions.length +
+      "</p></span>";
+    scoreText.innerHTML = scoreTag; //adding new span tag inside score_Text
+  } else if (userScore > 1) {
+    // if user scored more than 1
+    let scoreTag =
+      "<span>and nice , You got <p>" +
+      userScore +
+      "</p> out of <p>" +
+      questions.length +
+      "</p></span>";
+    scoreText.innerHTML = scoreTag;
+  } else {
+    // if user scored less than 1
+    let scoreTag =
+      "<span>and sorry , You got only <p>" +
+      userScore +
+      "</p> out of <p>" +
+      questions.length +
+      "</p></span>";
+    scoreText.innerHTML = scoreTag;
+  }
+}
+
+function startTimer(time) {
+  counter = setInterval(timer, 1000);
+  function timer() {
+    timeCount.textContent = time; //changing the value of timeCount with time value
+    time--; //decrement the time value
+    if (time < 9) {
+      //if timer is less than 9
+      let addZero = timeCount.textContent;
+      timeCount.textContent = "0" + addZero; //add a 0 before time value
+    }
+    if (time < 0) {
+      //if timer is less than 0
+      clearInterval(counter); //clear counter
+      timeText.textContent = "Time Off"; //change the time text to time off
+      const allOptions = option_list.children.length; //getting all option items
+      let correcAns = questions[que_count].answer; //getting correct answer from array
+      for (i = 0; i < allOptions; i++) {
+        if (option_list.children[i].textContent == correcAns) {
+          //if there is an option which is matched to an array answer
+          option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+          option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+          console.log("Time Off: Auto selected correct answer.");
+        }
+      }
+      for (i = 0; i < allOptions; i++) {
+        option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+      }
+      next_btn.classList.add("show"); //show the next button if user selected any option
+      setTimeout(() => {
+        if (que_count < questions.length - 1) {
+          que_count++; // increment the que_count value
+          que_numb++; // increment the que_numb value
+          showQuetions(que_count); // calling showQestions function
+          queCounter(que_numb); // passing que_numb value to queCounter
+          clearInterval(counter); // clear counter
+          clearInterval(counterLine); // clear counterLine
+          startTimer(timeValue); // calling startTimer function
+          startTimerLine(widthValue); // calling startTimerLine function
+          timeText.textContent = "Time Left"; // change the timeText to Time Left
+          next_btn.classList.remove("show"); // hide the next button
+        } else {
+          clearInterval(counter); // clear counter
+          clearInterval(counterLine); // clear counterLine
+          showResult(); // calling showResult function
+        }
+      }, 2000); 
+    }
+    
+  }
+}
+
+function startTimerLine(time) {
+  counterLine = setInterval(timer, 29);
+  function timer() {
+    time += 1; //upgrading time value with 1
+    time_line.style.width = time + "px"; //increasing width of time_line with px by time value
+    if (time > 549) {
+      //if time value is greater than 549
+      clearInterval(counterLine); //clear counterLine
+    }
+  }
+}
+
+function queCounter(index) {
+  //creating a new span tag and passing the question number and total question
+  let totalQueCounTag =
+    "<span><p>" +
+    index +
+    "</p> of <p>" +
+    questions.length +
+    "</p> Questions</span>";
+  bottom_ques_counter.innerHTML = totalQueCounTag; //adding new span tag inside bottom_ques_counter
+}
+
+          </script>
+</body>
+</html>
+</html>

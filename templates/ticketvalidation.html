@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Validation</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/ticketvalidationstyle.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <img class="wave" src="/static/images/wave.png">
+    <div class="container">
+        <div class="img">
+            <img src="/static/images/photo.png">
+        </div>
+        <div class="login-content">
+            <form style="border: 2px solid rgb(10, 81, 23); border-radius: 10px; width:500px; height: 300px;">
+                <img src="/static/images/avatar.svg">
+                <h2 class="title">Welcome Shagun</h2>
+                <h3>Upload your ticket and get it verified</h3>
+
+                <!-- Place the div here -->
+                <div>
+                    <input type="file" id="ticketImageInput" accept="image/*">
+                    <button id="uploadButton" style="background-color: rgb(36, 153, 89); width: 100px; height: 50px; border-radius: 20px; border: 2px solid black;">Upload Ticket</button>
+                    <p id="validationStatus"></p>
+                </div>
+                <!-- End of the div -->
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const uploadButton = document.getElementById("uploadButton");
+            const ticketImageInput = document.getElementById("ticketImageInput");
+            const validationStatus = document.getElementById("validationStatus");
+
+            uploadButton.addEventListener("click", (e) => {
+                e.preventDefault(); // Prevent the default form submission behavior
+
+                const file = ticketImageInput.files[0];
+                if (!file) {
+                    alert("Please select an image file.");
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append("ticket_image", file);
+
+                fetch("/upload_ticket", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.message === "valid") {
+                            validationStatus.textContent = "Your ticket is valid!";
+                        } else if (data.message === "invalid") {
+                            validationStatus.textContent = "Your ticket is not valid.";
+                        } else {
+                            validationStatus.textContent = "Error: " + data.message;
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

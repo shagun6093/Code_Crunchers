@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/chatbotstyle.css">
+
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chatbotstyle.css') }}"> -->
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/lib/languages/python.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/a11y-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+</head>
+
+<body>
+  <style>
+    /* Center the question list on the page */
+.question-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Style the question rows */
+.question-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0; /* Add vertical margin between rows */
+}
+
+/* Style all questions with a green background */
+.general-question {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(0, 0, 80); /* Green background color for all questions */
+  padding: 10px 15px; /* Add padding for spacing and appearance */
+  border-radius: 5px; /* Rounded corners for questions */
+  margin: 5px; /* Add horizontal margin between questions */
+}
+
+/* Style the questions with a button-like appearance */
+.with-button {
+  background-color: transparent; /* Remove background color */
+  border: 2px solid rgb(0, 0, 80); /* Add border to create a button-like appearance */
+  color: rgb(0, 0, 80); /* Text color for button-like question */
+  transition: background-color 0.3s, color 0.3s; /* Add transition effect */
+}
+
+/* Hover effect for button-like questions */
+.with-button:hover {
+  background-color: rgb(0, 80, 40); /* Change background color on hover */
+  color: white; /* Change text color on hover */
+  text-decoration: none;
+}
+
+  </style>
+  
+    <div class="container mt-5">
+        <h1 style="color:rgb(6, 63, 12) ; text-align:center ;font-size: 4rem;font-weight: bold">Insaaf ChatBot</h1>
+        <div class="chat-box mt-3" style="border: 2px solid green; border-radius: 10px; height: 400px;">
+            <!-- Chat messages will be added here dynamically -->
+           
+        </div>
+        <div class="form-group mt-3">
+          <div class="mt-3">
+            <ul class="question-list">
+              <ul class="question-row">
+                <a href="#" class="general-question with-button">What is child law in India</a>
+                <a href="#" class="general-question with-button">How can I file a complaint</a>
+              </ul>
+              <ul class="question-row">
+                <a href="#" class="general-question with-button">Which are  the different laws for womens in India</a>
+                <a href="#" class="general-question with-button">what is labour laws and rights in India</a>
+              <ul>
+            </ul>
+          </div>
+          
+            <textarea rows="3" placeholder="Type your message here" id="message-input" style="background-color: rgb(154, 215, 181)"></textarea>
+        </div>
+        <button type="button"  id="send-btn" style="align-items: center;
+    margin: auto ;display: flex; background-color: rgb(1, 82, 35); color: aliceblue; border-radius: 10px;
+">Send</button>
+   
+  
+    </div>
+    <script>
+        setInterval(highlightAll, 1000);
+
+        // Function to highlight code using highlight.js library
+        function highlightAll() {
+            document.querySelectorAll("pre code").forEach(block => {
+                hljs.highlightBlock(block);
+            });
+        }
+
+        const chatBox = document.querySelector(".chat-box");
+        const messageInput = document.querySelector("#message-input");
+        const sendBtn = document.querySelector("#send-btn");
+
+        function addMessage(message, isUserMessage) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("mt-3", "p-3", "rounded");
+
+            if (isUserMessage) {
+                messageDiv.classList.add("user-message");
+            } else {
+                messageDiv.classList.add("bot-message");
+            }
+
+            messageDiv.innerHTML = `
+            <img src="{{ url_for('static', filename='images/user.jpg') }}" class="user-icon"><p>${message}</p>
+            `;
+
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+
+            if (message !== "") {
+                addMessage(message, true);
+
+                fetch("/api", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        messageInput.value = "";
+                        const messageDiv = document.createElement("div");
+                        messageDiv.classList.add("mt-3", "p-3", "rounded");
+                        messageDiv.classList.add("bot-message");
+
+                        const content = data.response;
+
+                        // Check if the content has code block
+                        const hasCodeBlock = content.includes("");
+                        if (hasCodeBlock) {
+                            // If the content has a code block, wrap it in a <pre><code> element
+                            const codeContent = content.replace(/([\s\S]+?)```/g, '</p><pre><code>$1</code></pre><p>');
+                            messageDiv.innerHTML = `<img src="{{ url_for('static', filename='images/logo.png') }}" class="bot-icon"><p>${codeContent}</p>`;
+                        } else {
+                            messageDiv.innerHTML = `<img src="{{ url_for('static', filename='images/logo.png') }}" class="bot-icon"><p>${content}</p>`;
+                        }
+
+                        chatBox.appendChild(messageDiv);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+
+                    })
+                    .catch(error => console.error(error));
+            }
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        messageInput.addEventListener("keydown", event => {
+            if (event.keyCode === 13 && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+
+
+        const generalQuestions = document.querySelectorAll(".general-question");
+    generalQuestions.forEach(function (question) {
+      question.addEventListener("click", function () {
+        const clickedQuestion = question.innerText;
+        messageInput.value = clickedQuestion;
+        sendMessage();
+      });
+    });
+    </script>
+</body>
+
+</html>
